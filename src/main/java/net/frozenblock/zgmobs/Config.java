@@ -17,5 +17,9 @@ public class Config {
             .comment("Percentage for a Germonium to be a Celestium")
             .defineInRange("celestiumPercentage", 10, 0, 100);
 
+    public static final ForgeConfigSpec.IntValue CELESTIUM_DEATH_ROLL = BUILDER
+            .comment("Max amount of mobs that will be spawned when a celestium dies. Will choose randomly from 0 to this value")
+            .defineInRange("celestium_death_roll", 4, 0, Integer.MAX_VALUE);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 }

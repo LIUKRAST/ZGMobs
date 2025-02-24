@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:chest",
+  "type": "minecraft:entity",
   "pools": [
     {
       "rolls": 1,
@@ -64,21 +64,24 @@
       ]
     },
     {
-      "bonus_rolls": 0,
+      "rolls": 3,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:enchant_randomly",
-              "options": "#minecraft:on_random_loot"
+              "function": "minecraft:enchant_with_levels",
+              "levels": {
+                "type": "minecraft:uniform",
+                "min": 40,
+                "max": 40
+              },
+              "treasure": true
             }
           ],
           "name": "minecraft:book"
         }
-      ],
-      "rolls": 3
+      ]
     }
-  ],
-  "random_sequence": "minecraft:chests/abandoned_mineshaft"
+  ]
 }

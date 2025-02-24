@@ -2,14 +2,13 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.frozenblock.zgmobs.mixin",
-  "refmap": "${mod_id}.refmap.json",
+  "refmap": "zgmobs.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "CreeperMixin",
     "EntityMixin",
     "LivingEntityMixin",
-    "MobMixin",
-    "MonsterMixin"
+    "MobMixin"
   ],
   "client": [
     "EntityRenderDispatcherMixin",
