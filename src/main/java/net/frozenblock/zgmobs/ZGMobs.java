@@ -25,6 +25,7 @@ public class ZGMobs {
     public static final Material CELESTIUM_FIRE_0 = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.fromNamespaceAndPath(MOD_ID, "block/celestium_fire_0"));
     public static final Material CELESTIUM_FIRE_1 = new Material(TextureAtlas.LOCATION_BLOCKS, ResourceLocation.fromNamespaceAndPath(MOD_ID, "block/celestium_fire_1"));
 
+    public static boolean IGNORE_NEXT_SETUP = false;
 
     public static EntityDataAccessor<Integer> DATA_GERMONIUM;
 

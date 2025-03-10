@@ -9,17 +9,21 @@ public class Config {
             .comment("Deactivate Germonium Mobs")
             .define("disableGermonium", false);
 
-    public static final ForgeConfigSpec.IntValue GERMONIUM_PERCENTAGE = BUILDER
-            .comment("Percentage for a mob to be a Germonium type")
-            .defineInRange("germoniumPercentage", 5, 0, 100);
+    public static final ForgeConfigSpec.IntValue GERMONIUM_BASE_CHANCE = BUILDER
+            .comment("It determines the chance when a mob becomes a Germonium")
+            .defineInRange("germoniumBaseChance", 5, 0, 100);
 
-    public static final ForgeConfigSpec.IntValue CELESTIUM_PERCENTAGE = BUILDER
-            .comment("Percentage for a Germonium to be a Celestium")
-            .defineInRange("celestiumPercentage", 10, 0, 100);
+    public static final ForgeConfigSpec.IntValue CELESTIUM_VARIANT = BUILDER
+            .comment("It determines the chance when a mob becomes a Germonium Celestium")
+            .defineInRange("germoniumEqualizer", 10, 0, 100);
 
     public static final ForgeConfigSpec.IntValue CELESTIUM_DEATH_ROLL = BUILDER
             .comment("Max amount of mobs that will be spawned when a celestium dies. Will choose randomly from 0 to this value")
             .defineInRange("celestium_death_roll", 4, 0, Integer.MAX_VALUE);
+
+    public static final ForgeConfigSpec.BooleanValue ENABLE_SHULKER_BULLETS = BUILDER
+            .comment("Wether the germonium mobs should or should not shoot shulker bullets")
+            .define("enable_shulker_bullets", true);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 }
