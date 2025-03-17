@@ -42,7 +42,7 @@ public class LivingEntityMixin {
     }
 
     @Inject(method = "die", at = @At("TAIL"))
-    private void die(DamageSource p_21014_, CallbackInfo ci) {
+    private void die(DamageSource damageSource, CallbackInfo ci) {
         var that = (LivingEntity) (Object) this;
         if(this instanceof Enemy && GermoniumUtils.getVariant(this) == Germonium.CELESTIUM && !that.level().isClientSide()) {
             var entities = ZGMobs.getEntitiesFromTag(ResourceLocation.fromNamespaceAndPath(ZGMobs.MOD_ID, "celestium_spawns"));
@@ -57,14 +57,14 @@ public class LivingEntityMixin {
     }
 
     @Inject(method = "dropFromLootTable", at = @At("TAIL"))
-    private void dropFromLootTable(DamageSource p_21021_, boolean p_21022_, CallbackInfo ci) {
+    private void dropFromLootTable(DamageSource damageSource, boolean bl, CallbackInfo ci) {
         if(!(this instanceof Enemy)) return;
         var that = (LivingEntity)(Object)this;
         ResourceLocation resourcelocation = ResourceLocation.fromNamespaceAndPath(ZGMobs.MOD_ID, "entities/" + GermoniumUtils.getVariant(this   ).getSerializedName());
         @SuppressWarnings("DataFlowIssue")
         LootTable loottable = that.level().getServer().getLootData().getLootTable(resourcelocation);
-        LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel)that.level())).withParameter(LootContextParams.THIS_ENTITY, that).withParameter(LootContextParams.ORIGIN, that.position()).withParameter(LootContextParams.DAMAGE_SOURCE, p_21021_).withOptionalParameter(LootContextParams.KILLER_ENTITY, p_21021_.getEntity()).withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, p_21021_.getDirectEntity());
-        if (p_21022_ && lastHurtByPlayer != null) {
+        LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel)that.level())).withParameter(LootContextParams.THIS_ENTITY, that).withParameter(LootContextParams.ORIGIN, that.position()).withParameter(LootContextParams.DAMAGE_SOURCE, damageSource).withOptionalParameter(LootContextParams.KILLER_ENTITY, damageSource.getEntity()).withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, damageSource.getDirectEntity());
+        if (bl && lastHurtByPlayer != null) {
             lootparams$builder = lootparams$builder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, this.lastHurtByPlayer).withLuck(this.lastHurtByPlayer.getLuck());
         }
 

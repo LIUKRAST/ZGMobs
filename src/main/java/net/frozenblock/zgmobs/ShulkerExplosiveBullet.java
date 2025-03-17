@@ -2,6 +2,7 @@ package net.frozenblock.zgmobs;
 
 import com.google.common.base.MoreObjects;
 import net.minecraft.core.Direction;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -28,9 +29,12 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
             this.doEnchantDamageEffects(livingentity, entity);
             if (entity instanceof LivingEntity livingEntity1) {
                 if(Math.random() > 0.5) {
-                    livingEntity1.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 3), MoreObjects.firstNonNull(entity1, this));
+                    MobEffect[] effects = {
+                            MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN
+                    };
+                    livingEntity1.addEffect(new MobEffectInstance(effects[(int) (Math.random()*effects.length)], 100, 4), MoreObjects.firstNonNull(entity1, this));
                 } else {
-                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), 4, Level.ExplosionInteraction.NONE);
+                    this.level().explode(this, this.getX(), this.getY(), this.getZ(), 4.5f, Level.ExplosionInteraction.NONE);
                 }
             }
         }

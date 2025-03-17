@@ -88,9 +88,7 @@ public class MobMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
-        if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL
-                && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL
-        && Math.random() <= 0.34) {
+        if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
             --this.zGMobs$attackTime;
             LivingEntity livingentity = that.getTarget();
             if (livingentity != null && Config.ENABLE_SHULKER_BULLETS.get()) {
@@ -98,7 +96,7 @@ public class MobMixin {
                 double d0 = that.distanceToSqr(livingentity);
                 if (d0 < 400.0D) {
                     if (this.zGMobs$attackTime <= 0) {
-                        this.zGMobs$attackTime = 20 + that.getRandom().nextInt(10) * 20 / 2;
+                        this.zGMobs$attackTime = 400 + that.getRandom().nextInt(600);
                         that.level().addFreshEntity(new ShulkerExplosiveBullet(that.level(), that, livingentity, Direction.Axis.Y));
                         if(GermoniumUtils.getVariant(that) == Germonium.CELESTIUM) {
                             that.level().addFreshEntity(new ShulkerExplosiveBullet(that.level(), that, livingentity, Direction.Axis.Y));
