@@ -18,24 +18,25 @@ public enum Germonium implements StringRepresentable {
     private final int id;
     private final String name;
 
-    Germonium(int p_196658_, String p_196659_) {
-        this.id = p_196658_;
-        this.name = p_196659_;
+    Germonium(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
+    @Override
     public String getSerializedName() {
         return this.name;
     }
 
     public int getId() {
-        return this.id;
+        return id;
     }
 
-    public static Germonium byName(String p_28817_) {
-        return CODEC.byName(p_28817_, NORMAL);
+    public static Germonium byName(String name) {
+        return CODEC.byName(name, NORMAL);
     }
 
-    public static Germonium byId(int p_28813_) {
-        return BY_ID.apply(p_28813_);
+    public static Germonium byId(int id) {
+        return BY_ID.apply(id);
     }
 }

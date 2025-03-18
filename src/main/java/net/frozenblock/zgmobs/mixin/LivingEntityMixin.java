@@ -4,8 +4,11 @@ import net.frozenblock.zgmobs.Config;
 import net.frozenblock.zgmobs.Germonium;
 import net.frozenblock.zgmobs.GermoniumUtils;
 import net.frozenblock.zgmobs.ZGMobs;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -16,6 +19,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,12 +27,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
-
 @Mixin(LivingEntity.class)
-public class LivingEntityMixin {
-
+public abstract class LivingEntityMixin {
     @Shadow @Nullable protected Player lastHurtByPlayer;
+
+    @Shadow public abstract void swing(InteractionHand hand);
 
     @Inject(method = "getExperienceReward", at = @At("RETURN"), cancellable = true)
     private void getExperienceReward(CallbackInfoReturnable<Integer> cir) {
@@ -60,10 +63,11 @@ public class LivingEntityMixin {
     private void dropFromLootTable(DamageSource damageSource, boolean bl, CallbackInfo ci) {
         if(!(this instanceof Enemy)) return;
         var that = (LivingEntity)(Object)this;
-        ResourceLocation resourcelocation = ResourceLocation.fromNamespaceAndPath(ZGMobs.MOD_ID, "entities/" + GermoniumUtils.getVariant(this   ).getSerializedName());
+        ResourceLocation resourcelocation = ResourceLocation.fromNamespaceAndPath(ZGMobs.MOD_ID, "entities/" + GermoniumUtils.getVariant(this).getSerializedName());
+        var key = ResourceKey.create(Registries.LOOT_TABLE, resourcelocation);
         @SuppressWarnings("DataFlowIssue")
-        LootTable loottable = that.level().getServer().getLootData().getLootTable(resourcelocation);
-        LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel)that.level())).withParameter(LootContextParams.THIS_ENTITY, that).withParameter(LootContextParams.ORIGIN, that.position()).withParameter(LootContextParams.DAMAGE_SOURCE, damageSource).withOptionalParameter(LootContextParams.KILLER_ENTITY, damageSource.getEntity()).withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, damageSource.getDirectEntity());
+        LootTable loottable = that.level().getServer().reloadableRegistries().getLootTable(key);
+        LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel)that.level())).withParameter(LootContextParams.THIS_ENTITY, that).withParameter(LootContextParams.ORIGIN, that.position()).withParameter(LootContextParams.DAMAGE_SOURCE, damageSource).withOptionalParameter(LootContextParams.ATTACKING_ENTITY, damageSource.getEntity()).withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity());
         if (bl && lastHurtByPlayer != null) {
             lootparams$builder = lootparams$builder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, this.lastHurtByPlayer).withLuck(this.lastHurtByPlayer.getLuck());
         }
@@ -71,5 +75,4 @@ public class LivingEntityMixin {
         LootParams lootparams = lootparams$builder.create(LootContextParamSets.ENTITY);
         loottable.getRandomItems(lootparams, that.getLootTableSeed(), that::spawnAtLocation);
     }
-
 }

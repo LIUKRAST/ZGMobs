@@ -2,8 +2,8 @@
   "required": true,
   "minVersion": "0.8",
   "package": "net.frozenblock.zgmobs.mixin",
+  "compatibilityLevel": "JAVA_21",
   "refmap": "zgmobs.refmap.json",
-  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "CreeperMixin",
     "EntityMixin",
@@ -14,7 +14,6 @@
     "EntityRenderDispatcherMixin",
     "EntityRendererMixin"
   ],
-  "server": [],
   "injectors": {
     "defaultRequire": 1
   }

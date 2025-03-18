@@ -11,5 +11,4 @@ public interface CreeperMixin {
     static EntityDataAccessor<Boolean> accessor$DATA_IS_POWERED() {
         throw new AssertionError();
     }
-
 }

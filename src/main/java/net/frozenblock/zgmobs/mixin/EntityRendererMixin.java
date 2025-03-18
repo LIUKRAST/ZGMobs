@@ -13,11 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityRenderer.class)
 public class EntityRendererMixin<T extends Entity> {
+
     @Inject(method = "getBlockLightLevel", at = @At("RETURN"), cancellable = true)
-    private void getBlockLightLevel(T entity, BlockPos blockPos, CallbackInfoReturnable<Integer> cir) {
-        if(entity instanceof Enemy) {
-            if(GermoniumUtils.getVariant(entity) == Germonium.NORMAL) return;
-            cir.setReturnValue(15);
-        }
+    private void getBlockLightLevel(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+        if(entity instanceof Enemy && GermoniumUtils.getVariant(entity) != Germonium.NORMAL) cir.setReturnValue(15);
     }
 }

@@ -2,6 +2,7 @@ package net.frozenblock.zgmobs.mixin;
 
 import net.frozenblock.zgmobs.*;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -25,14 +26,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
 public class MobMixin {
-
     @Inject(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;defineId(Ljava/lang/Class;Lnet/minecraft/network/syncher/EntityDataSerializer;)Lnet/minecraft/network/syncher/EntityDataAccessor;"))
     private static void clinit(CallbackInfo ci) {
         ZGMobs.DATA_GERMONIUM = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.INT);
     }
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
-    private void finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag p_21438_, CallbackInfoReturnable<SpawnGroupData> cir) {
+    private void finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CallbackInfoReturnable<SpawnGroupData> cir) {
         if(this instanceof Enemy) {
             if(ZGMobs.IGNORE_NEXT_SETUP) {
                 ZGMobs.IGNORE_NEXT_SETUP = false;
@@ -48,7 +48,7 @@ public class MobMixin {
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     private void defineSynchedData(CallbackInfo ci) {
         if(this instanceof Enemy) {
-            ((Mob)(Object)this).getEntityData().define(ZGMobs.DATA_GERMONIUM, 0);
+            ((Mob)(Object)this).getEntityData().set(ZGMobs.DATA_GERMONIUM, 0);
         }
     }
 
@@ -72,7 +72,7 @@ public class MobMixin {
         if (that.level().isClientSide && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
             for(int i = 0; i < 3; ++i) {
                 that.level().addAlwaysVisibleParticle(
-                        ParticleTypes.ENTITY_EFFECT,
+                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, (int) (Math.random()*16777216)),
                         that.getRandomX(that.getBoundingBox().getXsize()/2),
                         that.getRandomY(),
                         that.getRandomZ(that.getBoundingBox().getZsize()/2),
@@ -81,9 +81,9 @@ public class MobMixin {
             }
         }
     }
-    
+
     @Unique
-    private int zGMobs$attackTime = 0; 
+    private int zGMobs$attackTime = 0;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
