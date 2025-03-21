@@ -32,7 +32,7 @@ public class ZGMobs {
     public static EntityDataAccessor<Integer> DATA_GERMONIUM;
 
     public ZGMobs(IEventBus modEventBus, ModContainer container) {
-        modEventBus.register(this);
+        //modEventBus.register(this);
         container.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
