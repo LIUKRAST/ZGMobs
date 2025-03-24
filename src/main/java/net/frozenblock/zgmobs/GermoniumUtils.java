@@ -57,6 +57,6 @@ public class GermoniumUtils {
         if(that.getAttribute(attribute) == null) return;
         //noinspection DataFlowIssue
         that.getAttribute(attribute)
-                .addPermanentModifier(new AttributeModifier(ZGMobs.id("GermoniumModifier"),value, operation));
+                .addPermanentModifier(new AttributeModifier(ZGMobs.id("germonium_modifier"),value, operation));
     }
 }

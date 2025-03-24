@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
 public class MobMixin {
-    @Inject(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;defineId(Ljava/lang/Class;Lnet/minecraft/network/syncher/EntityDataSerializer;)Lnet/minecraft/network/syncher/EntityDataAccessor;"))
+    @Inject(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;defineId(Ljava/lang/Class;Lnet/minecraft/network/syncher/EntityDataSerializer;)Lnet/minecraft/network/syncher/EntityDataAccessor;", ordinal = 0))
     private static void clinit(CallbackInfo ci) {
         ZGMobs.DATA_GERMONIUM = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.INT);
     }
@@ -46,10 +46,8 @@ public class MobMixin {
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    private void defineSynchedData(CallbackInfo ci) {
-        if(this instanceof Enemy) {
-            ((Mob)(Object)this).getEntityData().set(ZGMobs.DATA_GERMONIUM, 0);
-        }
+    private void defineSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        builder.define(ZGMobs.DATA_GERMONIUM, 0);
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))

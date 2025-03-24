@@ -31,7 +31,7 @@ public class ZGMobs {
     public static boolean IGNORE_NEXT_SETUP = false;
     public static EntityDataAccessor<Integer> DATA_GERMONIUM;
 
-    public ZGMobs(IEventBus modEventBus, ModContainer container) {
+    public ZGMobs(@SuppressWarnings("unused") IEventBus modEventBus, ModContainer container) {
         //modEventBus.register(this);
         container.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
