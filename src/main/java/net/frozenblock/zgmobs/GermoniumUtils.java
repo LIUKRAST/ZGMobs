@@ -6,7 +6,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 
 public class GermoniumUtils {
@@ -32,27 +31,14 @@ public class GermoniumUtils {
     public static void setupInfernium(Mob that) {
         if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
         setVariant(that, Germonium.INFERNIUM);
-        attributeSetup(that, Attributes.MAX_HEALTH, 40, AttributeModifier.Operation.ADD_VALUE);
-        that.setHealth(that.getMaxHealth());
-        attributeSetup(that, Attributes.ATTACK_DAMAGE, 0.4, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        attributeSetup(that, Attributes.MOVEMENT_SPEED, 0.4, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        attributeSetup(that, Attributes.KNOCKBACK_RESISTANCE, 0.4, AttributeModifier.Operation.ADD_VALUE);
-        attributeSetup(that, Attributes.ARMOR, 12, AttributeModifier.Operation.ADD_VALUE);
-        attributeSetup(that, Attributes.ARMOR_TOUGHNESS, 10, AttributeModifier.Operation.ADD_VALUE);
     }
 
     public static void setupCelestium(Mob that) {
         if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
         setVariant(that, Germonium.CELESTIUM);
-        attributeSetup(that, Attributes.MAX_HEALTH, 80, AttributeModifier.Operation.ADD_VALUE);
-        that.setHealth(that.getMaxHealth());
-        attributeSetup(that, Attributes.ATTACK_DAMAGE, 0.7, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        attributeSetup(that, Attributes.MOVEMENT_SPEED, 0.4, AttributeModifier.Operation.ADD_MULTIPLIED_BASE);
-        attributeSetup(that, Attributes.KNOCKBACK_RESISTANCE, 1, AttributeModifier.Operation.ADD_VALUE);
-        attributeSetup(that, Attributes.ARMOR, 16, AttributeModifier.Operation.ADD_VALUE);
-        attributeSetup(that, Attributes.ARMOR_TOUGHNESS, 14, AttributeModifier.Operation.ADD_VALUE);
     }
 
+    @Deprecated
     public static void attributeSetup(Mob that, Holder<Attribute> attribute, double value, AttributeModifier.Operation operation) {
         if(that.getAttribute(attribute) == null) return;
         //noinspection DataFlowIssue

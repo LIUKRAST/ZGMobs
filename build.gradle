@@ -13,7 +13,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id + "-neoforge"
+    archivesName = mod_id + "-neo"
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)

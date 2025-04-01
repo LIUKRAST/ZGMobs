@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Shulker;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -82,10 +83,20 @@ public class MobMixin {
 
     @Unique
     private int zGMobs$attackTime = 0;
+    @Unique
+    private Germonium zgmobs$variant = Germonium.NORMAL;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
+        if(that instanceof Enemy) {
+            var variant = GermoniumUtils.getVariant(that);
+            if(variant != zgmobs$variant) {
+                zgmobs$variant = variant;
+                variant.setAttributes(that.getAttributes());
+                that.setHealth(that.getMaxHealth());
+            }
+        }
         if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
             --this.zGMobs$attackTime;
             LivingEntity livingentity = that.getTarget();
