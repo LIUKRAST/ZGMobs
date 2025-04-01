@@ -25,5 +25,12 @@ public class Config {
             .comment("Wether the germonium mobs should or should not shoot shulker bullets")
             .define("enable_shulker_bullets", true);
 
+    public static final ModConfigSpec.IntValue SHULKER_MIN_COOLDOWN = BUILDER
+            .comment("Minimum shulker cooldown time (in ticks)")
+            .defineInRange("shulker_min_cooldown", 400, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue SHULKER_MAX_COOLDOWN = BUILDER
+            .comment("Maximum shulker cooldown time (in ticks)")
+            .defineInRange("shulker_max_cooldown", 600, 0, Integer.MAX_VALUE);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 }

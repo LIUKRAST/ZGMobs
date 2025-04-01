@@ -61,7 +61,7 @@ public enum Germonium implements StringRepresentable {
             AttributeInstance instance = attributes.getInstance(entry.getKey());
             if(instance == null) continue;
             instance.removeModifier(entry.getValue().id());
-            instance.addPermanentModifier(entry.getValue().create(1));
+            instance.addPermanentModifier(entry.getValue().create(0));
         }
     }
 
