@@ -13,17 +13,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class EntityMixin {
     @Inject(method = "displayFireAnimation", at = @At("RETURN"), cancellable = true)
     private void displayFireAnimation(CallbackInfoReturnable<Boolean> cir) {
-        if(this instanceof Enemy) {
-            if(GermoniumUtils.getVariant(this) == Germonium.NORMAL) return;
+        if(this instanceof Enemy && GermoniumUtils.getVariant(this) != Germonium.NORMAL)
             cir.setReturnValue(true);
-        }
     }
 
     @Inject(method = "fireImmune", at = @At("RETURN"), cancellable = true)
     private void fireImmune(CallbackInfoReturnable<Boolean> cir) {
-        if(this instanceof Enemy) {
-            if(GermoniumUtils.getVariant(this) == Germonium.NORMAL) return;
+        if(this instanceof Enemy && GermoniumUtils.getVariant(this) != Germonium.NORMAL)
             cir.setReturnValue(true);
-        }
     }
 }

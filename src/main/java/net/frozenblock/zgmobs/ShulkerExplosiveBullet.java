@@ -32,7 +32,7 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
                     MobEffect[] effects = {
                             MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN
                     };
-                    livingEntity1.addEffect(new MobEffectInstance(effects[(int) (Math.random()*effects.length)], 100, 4), MoreObjects.firstNonNull(entity1, this));
+                    livingEntity1.addEffect(new MobEffectInstance(effects[(int) (Math.random()*effects.length)], 100, 3), MoreObjects.firstNonNull(entity1, this));
                 } else {
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 4.5f, Level.ExplosionInteraction.NONE);
                 }

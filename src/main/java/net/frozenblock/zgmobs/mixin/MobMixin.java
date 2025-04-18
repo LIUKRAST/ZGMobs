@@ -23,6 +23,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import static net.frozenblock.zgmobs.GermoniumUtils.setVariant;
+
 @Mixin(Mob.class)
 public class MobMixin {
 
@@ -40,8 +42,7 @@ public class MobMixin {
             }
             Mob that = (Mob)(Object)this;
             if(!Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
-            if(Math.random()*100 > Config.CELESTIUM_VARIANT.get()) GermoniumUtils.setupInfernium(that);
-            else GermoniumUtils.setupCelestium(that);
+            GermoniumUtils.setup(that, Math.random()*100 > Config.CELESTIUM_VARIANT.get());
         }
     }
 
@@ -62,7 +63,7 @@ public class MobMixin {
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readAdditionalSaveData(CompoundTag nbt, CallbackInfo ci) {
         if(this instanceof Enemy) {
-            GermoniumUtils.setVariant(this, Germonium.byName(nbt.getString("Germonium")));
+            setVariant(this, Germonium.byName(nbt.getString("Germonium")));
         }
     }
 
@@ -83,11 +84,22 @@ public class MobMixin {
     }
     
     @Unique
-    private int zGMobs$attackTime = 0; 
+    private int zGMobs$attackTime = 0;
+
+    @Unique
+    private Germonium zgmobs$variant = Germonium.NORMAL;
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
+        if(that instanceof Enemy) {
+            var variant = GermoniumUtils.getVariant(that);
+            if(variant != zgmobs$variant) {
+                zgmobs$variant = variant;
+                variant.setAttributes(that.getAttributes());
+                that.setHealth(that.getMaxHealth());
+            }
+        }
         if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
             --this.zGMobs$attackTime;
             LivingEntity livingentity = that.getTarget();

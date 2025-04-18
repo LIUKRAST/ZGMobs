@@ -51,7 +51,7 @@ public class LivingEntityMixin {
                 ZGMobs.IGNORE_NEXT_SETUP = true;
                 var entity = entityType.spawn((ServerLevel) that.level(), that.getOnPos().above(), MobSpawnType.REINFORCEMENT);
                 assert entity != null;
-                if(entity instanceof Mob mob) GermoniumUtils.setupInfernium(mob);
+                if(entity instanceof Mob mob) GermoniumUtils.setup(mob, true);
             }
         }
     }
