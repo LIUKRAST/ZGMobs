@@ -29,6 +29,9 @@ public class ZGMobs {
 
     public static EntityDataAccessor<Integer> DATA_GERMONIUM;
 
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 
     public ZGMobs(FMLJavaModLoadingContext ctx) {
         ctx.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
