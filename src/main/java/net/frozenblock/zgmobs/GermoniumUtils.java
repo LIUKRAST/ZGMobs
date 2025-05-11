@@ -1,11 +1,8 @@
 package net.frozenblock.zgmobs;
 
 import net.frozenblock.zgmobs.mixin.CreeperMixin;
-import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.monster.Creeper;
 
 public class GermoniumUtils {
@@ -36,13 +33,5 @@ public class GermoniumUtils {
     public static void setupCelestium(Mob that) {
         if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
         setVariant(that, Germonium.CELESTIUM);
-    }
-
-    @Deprecated
-    public static void attributeSetup(Mob that, Holder<Attribute> attribute, double value, AttributeModifier.Operation operation) {
-        if(that.getAttribute(attribute) == null) return;
-        //noinspection DataFlowIssue
-        that.getAttribute(attribute)
-                .addPermanentModifier(new AttributeModifier(ZGMobs.id("germonium_modifier"),value, operation));
     }
 }

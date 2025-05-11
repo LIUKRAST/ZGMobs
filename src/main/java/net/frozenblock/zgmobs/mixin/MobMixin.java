@@ -21,6 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Mob.class)
 public class MobMixin {
+    @Unique
+    private int zGMobs$attackTime = 0;
+    @Unique
+    private Germonium zgmobs$variant = Germonium.NORMAL;
+
     @Inject(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/syncher/SynchedEntityData;defineId(Ljava/lang/Class;Lnet/minecraft/network/syncher/EntityDataSerializer;)Lnet/minecraft/network/syncher/EntityDataAccessor;", ordinal = 0))
     private static void clinit(CallbackInfo ci) {
         ZGMobs.DATA_GERMONIUM = SynchedEntityData.defineId(Mob.class, EntityDataSerializers.INT);
@@ -42,7 +47,6 @@ public class MobMixin {
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readAdditionalSaveData(CompoundTag nbt, CallbackInfo ci) {
         if(this instanceof Enemy) {
-            zgmobs$variant = Germonium.byName(nbt.getString("Germonium"));
             GermoniumUtils.setVariant(this, Germonium.byName(nbt.getString("Germonium")));
         }
     }
@@ -50,35 +54,8 @@ public class MobMixin {
     @Inject(method = "aiStep", at = @At("HEAD"))
     private void aiStep(CallbackInfo ci) {
         var that = ((Mob)(Object)this);
-        if (that.level().isClientSide && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
-            for(int i = 0; i < 3; ++i) {
-                that.level().addAlwaysVisibleParticle(
-                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, (int) (Math.random()*16777216)),
-                        that.getRandomX(that.getBoundingBox().getXsize()/2),
-                        that.getRandomY(),
-                        that.getRandomZ(that.getBoundingBox().getZsize()/2),
-                        Math.random(), Math.random(), Math.random());
-
-            }
-        }
-    }
-
-    @Unique
-    private int zGMobs$attackTime = 0;
-    @Unique
-    private Germonium zgmobs$variant = Germonium.NORMAL;
-
-    @Inject(method = "tick", at = @At("TAIL"))
-    private void tick(CallbackInfo ci) {
-        final var that = (Mob)(Object)this;
         var variant = GermoniumUtils.getVariant(that);
-        if(that instanceof Enemy) {
-            if(variant != zgmobs$variant) {
-                zgmobs$variant = variant;
-                variant.setAttributes(that.getAttributes());
-            }
-        }
-        if(that instanceof Enemy && variant != Germonium.NORMAL) {
+        if (variant != Germonium.NORMAL) {
             for(int i = 0; i < 3; ++i) {
                 that.level().addAlwaysVisibleParticle(
                         ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, (float) Math.random(), (float) Math.random(), (float) Math.random()),
@@ -86,7 +63,6 @@ public class MobMixin {
                         that.getRandomY(),
                         that.getRandomZ(that.getBoundingBox().getZsize()/2),
                         Math.random(), Math.random(), Math.random());
-
             }
         }
         if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
@@ -110,5 +86,18 @@ public class MobMixin {
                 }
             }
         }
+    }
+
+    @Inject(method = "tick", at = @At("TAIL"))
+    private void tick(CallbackInfo ci) {
+        final var that = (Mob)(Object)this;
+        var variant = GermoniumUtils.getVariant(that);
+        if(that instanceof Enemy) {
+            if(variant != zgmobs$variant) {
+                zgmobs$variant = variant;
+                variant.setAttributes(that.getAttributes());
+            }
+        }
+
     }
 }
