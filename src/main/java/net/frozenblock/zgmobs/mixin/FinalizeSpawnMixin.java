@@ -1,6 +1,7 @@
 package net.frozenblock.zgmobs.mixin;
 
 import net.frozenblock.zgmobs.Config;
+import net.frozenblock.zgmobs.Germonium;
 import net.frozenblock.zgmobs.GermoniumUtils;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Mob;
@@ -22,8 +23,11 @@ public class FinalizeSpawnMixin {
         if(this instanceof Enemy) {
             Mob that = (Mob)(Object)this;
             if(!Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
-            if(Math.random()*100 > Config.CELESTIUM_VARIANT.get()) GermoniumUtils.setupInfernium(that);
+            boolean infernium = Math.random()*100 > Config.CELESTIUM_VARIANT.get();
+            if(infernium) GermoniumUtils.setupInfernium(that);
             else GermoniumUtils.setupCelestium(that);
+            (infernium ? Germonium.INFERNIUM : Germonium.CELESTIUM).setAttributes(that.getAttributes());
+            that.setHealth(that.getMaxHealth());
         }
     }
 }

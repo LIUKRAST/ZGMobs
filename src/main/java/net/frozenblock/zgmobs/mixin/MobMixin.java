@@ -38,9 +38,11 @@ public class MobMixin {
         }
     }
 
+
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readAdditionalSaveData(CompoundTag nbt, CallbackInfo ci) {
         if(this instanceof Enemy) {
+            zgmobs$variant = Germonium.byName(nbt.getString("Germonium"));
             GermoniumUtils.setVariant(this, Germonium.byName(nbt.getString("Germonium")));
         }
     }
@@ -69,12 +71,22 @@ public class MobMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
+        var variant = GermoniumUtils.getVariant(that);
         if(that instanceof Enemy) {
-            var variant = GermoniumUtils.getVariant(that);
             if(variant != zgmobs$variant) {
                 zgmobs$variant = variant;
                 variant.setAttributes(that.getAttributes());
-                that.setHealth(that.getMaxHealth());
+            }
+        }
+        if(that instanceof Enemy && variant != Germonium.NORMAL) {
+            for(int i = 0; i < 3; ++i) {
+                that.level().addAlwaysVisibleParticle(
+                        ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, (float) Math.random(), (float) Math.random(), (float) Math.random()),
+                        that.getRandomX(that.getBoundingBox().getXsize()/2),
+                        that.getRandomY(),
+                        that.getRandomZ(that.getBoundingBox().getZsize()/2),
+                        Math.random(), Math.random(), Math.random());
+
             }
         }
         if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
