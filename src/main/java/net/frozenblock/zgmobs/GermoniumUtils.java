@@ -6,6 +6,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Creeper;
 
 public class GermoniumUtils {
+    private GermoniumUtils() {}
 
     public static void setVariant(Object entity, Germonium germonium) {
         setVariant((Entity) entity, germonium);
@@ -23,8 +24,13 @@ public class GermoniumUtils {
         return Germonium.byId(entity.getEntityData().get(ZGMobs.DATA_GERMONIUM));
     }
 
-    public static void setup(Mob that, boolean infernium) {
+    public static void setupInfernium(Mob that) {
         if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
-        setVariant(that, infernium ? Germonium.INFERNIUM : Germonium.CELESTIUM);
+        setVariant(that, Germonium.INFERNIUM);
+    }
+
+    public static void setupCelestium(Mob that) {
+        if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
+        setVariant(that, Germonium.CELESTIUM);
     }
 }

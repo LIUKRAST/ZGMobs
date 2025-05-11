@@ -31,7 +31,7 @@ public class EntityRenderDispatcherMixin {
     }
 
     @ModifyArg(method = "renderFlame", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"), index = 2)
-    private float modifyArg2(float instance, @Local(argsOnly = true) Entity entity) {
+    private float renderFlame(float instance, @Local(argsOnly = true) Entity entity) {
         return entity instanceof Enemy && GermoniumUtils.getVariant(entity) != Germonium.NORMAL ? 0 : instance;
     }
 }
