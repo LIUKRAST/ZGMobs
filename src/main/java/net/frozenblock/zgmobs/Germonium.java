@@ -5,7 +5,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.monster.Enemy;
 import org.lwjgl.system.NonnullDefault;
 
 import java.util.HashMap;
@@ -75,5 +77,16 @@ public enum Germonium implements StringRepresentable {
 
     private static MobEffect.AttributeTemplate create(double amount, AttributeModifier.Operation operation) {
         return new MobEffect.AttributeTemplate(ZGMobs.id("zgmobs.variant.germonium"), amount, operation);
+    }
+
+    public static void finalizeSpawn(Mob that) {
+        if(that instanceof Enemy) {
+            if(!Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
+            boolean infernium = Math.random()*100 > Config.CELESTIUM_VARIANT.get();
+            if(infernium) GermoniumUtils.setupInfernium(that);
+            else GermoniumUtils.setupCelestium(that);
+            (infernium ? Germonium.INFERNIUM : Germonium.CELESTIUM).setAttributes(that.getAttributes());
+            that.setHealth(that.getMaxHealth());
+        }
     }
 }

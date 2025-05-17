@@ -9,7 +9,8 @@
     "EntityMixin",
     "FinalizeSpawnMixin",
     "LivingEntityMixin",
-    "MobMixin"
+    "MobMixin",
+    "SpawnerMixin"
   ],
   "client": [
     "EntityRenderDispatcherMixin",

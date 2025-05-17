@@ -20,14 +20,6 @@ public class FinalizeSpawnMixin {
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CallbackInfoReturnable<SpawnGroupData> cir) {
-        if(this instanceof Enemy) {
-            Mob that = (Mob)(Object)this;
-            if(!Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
-            boolean infernium = Math.random()*100 > Config.CELESTIUM_VARIANT.get();
-            if(infernium) GermoniumUtils.setupInfernium(that);
-            else GermoniumUtils.setupCelestium(that);
-            (infernium ? Germonium.INFERNIUM : Germonium.CELESTIUM).setAttributes(that.getAttributes());
-            that.setHealth(that.getMaxHealth());
-        }
+        Germonium.finalizeSpawn((Mob)(Object)this);
     }
 }
