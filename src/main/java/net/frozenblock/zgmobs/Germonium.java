@@ -54,11 +54,11 @@ public enum Germonium implements StringRepresentable {
     public void setAttributes(AttributeMap attributes) {
         final Map<Holder<Attribute>, MobEffect.AttributeTemplate> map = new HashMap<>();
         map.put(Attributes.MAX_HEALTH, create(forVariant(0,40, 80), ADD_VALUE));
-        map.put(Attributes.ATTACK_DAMAGE, create(forVariant(0d,0.4, 0.7), ADD_MULTIPLIED_BASE));
-        map.put(Attributes.MOVEMENT_SPEED, create(forVariant(0d,0.4, 0.4), ADD_MULTIPLIED_BASE));
+        map.put(Attributes.ATTACK_DAMAGE, create(forVariant(0,8, 12), ADD_VALUE));
+        map.put(Attributes.MOVEMENT_SPEED, create(forVariant(0d,0.5, 0.65), ADD_MULTIPLIED_BASE));
         map.put(Attributes.KNOCKBACK_RESISTANCE, create(forVariant(0d,0.4, 1d), ADD_VALUE));
-        map.put(Attributes.ARMOR, create(forVariant(0,12, 16), ADD_VALUE));
-        map.put(Attributes.ARMOR_TOUGHNESS, create(forVariant(0,10, 14), ADD_VALUE));
+        map.put(Attributes.ARMOR, create(forVariant(0,20, 25), ADD_VALUE));
+        map.put(Attributes.ARMOR_TOUGHNESS, create(forVariant(0,15, 20), ADD_VALUE));
         for(var entry : map.entrySet()) {
             AttributeInstance instance = attributes.getInstance(entry.getKey());
             if(instance == null) continue;
