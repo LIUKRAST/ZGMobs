@@ -52,4 +52,9 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
             }
         }
     }
+
+    @Override
+    protected boolean canHitEntity(@NotNull Entity entity) {
+        return GermoniumUtils.getVariant(entity) == Germonium.NORMAL && super.canHitEntity(entity);
+    }
 }
