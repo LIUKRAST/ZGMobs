@@ -31,7 +31,6 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
         if (flag) {
             assert livingentity != null;
             EnchantmentHelper.doPostAttackEffects((ServerLevel) this.level(), entity, damagesource);
-            //this.doEnchantDamageEffects(livingentity, entity);
             if (entity instanceof LivingEntity livingEntity1) {
                 if(Math.random() > 0.5) {
                     List<MobEffectInstance> instances = List.of(
