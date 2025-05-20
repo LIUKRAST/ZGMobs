@@ -1,6 +1,5 @@
 package net.frozenblock.zgmobs;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Holder;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;

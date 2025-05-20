@@ -2,10 +2,8 @@ package net.frozenblock.zgmobs;
 
 import com.google.common.base.MoreObjects;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
