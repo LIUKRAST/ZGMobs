@@ -41,7 +41,7 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
                             new MobEffectInstance(MobEffects.CONFUSION, 100),
                             new MobEffectInstance(MobEffects.BAD_OMEN, 100, 10),
                             new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2),
-                            new MobEffectInstance(MobEffects.BLINDNESS, 100, 2),
+                            new MobEffectInstance(MobEffects.BLINDNESS, 100, 0),
                             new MobEffectInstance(MobEffects.WEAKNESS, 100, 2),
                             new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2)
                     );
