@@ -1,0 +1,9 @@
+{
+  "zgmobs.configuration.disable.Germonium": "Deactivate Germonium",
+  "zgmobs.configuration.germoniumBaseChance": "Germonium Base Chance",
+  "zgmobs.configuration.germoniumEqualizer": "Germonium Equalizer",
+  "zgmobs.configuration.celestium_death_roll": "Celestium Death Roll",
+  "zgmobs.configuration.enable_shulker_bullets": "Enable Shulker Bullets",
+  "zgmobs.configuration.shulker_min_cooldown": "Shulker Minimum Cooldown",
+  "zgmobs.configuration.shulker_max_cooldown": "Shulker Maximum Cooldown"
+}
