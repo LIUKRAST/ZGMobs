@@ -1,10 +1,10 @@
 package net.frozenblock.zgmobs;
 
-import net.minecraft.core.Holder;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
-import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.monster.Enemy;
 import org.lwjgl.system.NonnullDefault;
 
 import java.util.HashMap;
@@ -47,11 +47,11 @@ public enum Germonium implements StringRepresentable {
     public void setAttributes(AttributeMap attributes) {
         final Map<Attribute, AttributeModifier> map = new HashMap<>();
         map.put(Attributes.MAX_HEALTH, create(forVariant(0,40, 80), AttributeModifier.Operation.ADDITION));
-        map.put(Attributes.ATTACK_DAMAGE, create(forVariant(0d,0.4, 0.7), AttributeModifier.Operation.MULTIPLY_BASE));
-        map.put(Attributes.MOVEMENT_SPEED, create(forVariant(0d,0.4, 0.4), AttributeModifier.Operation.MULTIPLY_BASE));
+        map.put(Attributes.ATTACK_DAMAGE, create(forVariant(0,8, 12), AttributeModifier.Operation.ADDITION));
+        map.put(Attributes.MOVEMENT_SPEED, create(forVariant(0d,0.5, 0.65), AttributeModifier.Operation.MULTIPLY_BASE));
         map.put(Attributes.KNOCKBACK_RESISTANCE, create(forVariant(0d,0.4, 1d), AttributeModifier.Operation.ADDITION));
-        map.put(Attributes.ARMOR, create(forVariant(0,12, 16), AttributeModifier.Operation.ADDITION));
-        map.put(Attributes.ARMOR_TOUGHNESS, create(forVariant(0,10, 14), AttributeModifier.Operation.ADDITION));
+        map.put(Attributes.ARMOR, create(forVariant(0,20, 25), AttributeModifier.Operation.ADDITION));
+        map.put(Attributes.ARMOR_TOUGHNESS, create(forVariant(0,15, 20), AttributeModifier.Operation.ADDITION));
         for(var entry : map.entrySet()) {
             AttributeInstance instance = attributes.getInstance(entry.getKey());
             if(instance == null) continue;
@@ -70,5 +70,16 @@ public enum Germonium implements StringRepresentable {
 
     private static AttributeModifier create(double amount, AttributeModifier.Operation operation) {
         return new AttributeModifier("zgmobs.variant.germonium", amount, operation);
+    }
+
+    public static void finalizeSpawn(Mob mob) {
+        if(mob instanceof Enemy) {
+            if(!Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
+            boolean infernium = Math.random()*100 > Config.CELESTIUM_VARIANT.get();
+            if(infernium) GermoniumUtils.setupInfernium(mob);
+            else GermoniumUtils.setupCelestium(mob);
+            (infernium ? Germonium.INFERNIUM : Germonium.CELESTIUM).setAttributes(mob.getAttributes());
+            mob.setHealth(mob.getMaxHealth());
+        }
     }
 }

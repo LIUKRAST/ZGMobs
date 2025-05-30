@@ -7,10 +7,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class ShulkerExplosiveBullet extends ShulkerBullet {
 
@@ -29,14 +32,28 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
             this.doEnchantDamageEffects(livingentity, entity);
             if (entity instanceof LivingEntity livingEntity1) {
                 if(Math.random() > 0.5) {
-                    MobEffect[] effects = {
-                            MobEffects.MOVEMENT_SLOWDOWN, MobEffects.BLINDNESS, MobEffects.WEAKNESS, MobEffects.DIG_SLOWDOWN
-                    };
-                    livingEntity1.addEffect(new MobEffectInstance(effects[(int) (Math.random()*effects.length)], 100, 3), MoreObjects.firstNonNull(entity1, this));
+                    List<MobEffectInstance> instances = List.of(
+                            new MobEffectInstance(MobEffects.WITHER, 100, 2),
+                            new MobEffectInstance(MobEffects.DARKNESS, 100),
+                            new MobEffectInstance(MobEffects.HARM, 100, 3),
+                            new MobEffectInstance(MobEffects.CONFUSION, 100),
+                            new MobEffectInstance(MobEffects.BAD_OMEN, 100, 10),
+                            new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2),
+                            new MobEffectInstance(MobEffects.BLINDNESS, 100),
+                            new MobEffectInstance(MobEffects.WEAKNESS, 100, 2),
+                            new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2)
+                    );
+                    livingEntity1.addEffect(instances.get((int) (Math.random() * instances.size())), MoreObjects.firstNonNull(entity1, this));
                 } else {
                     this.level().explode(this, this.getX(), this.getY(), this.getZ(), 4.5f, Level.ExplosionInteraction.NONE);
                 }
             }
         }
+    }
+
+    @Override
+    protected boolean canHitEntity(@NotNull Entity entity) {
+        if(entity instanceof Mob) return GermoniumUtils.getVariant(entity) == Germonium.NORMAL;
+        return super.canHitEntity(entity);
     }
 }
