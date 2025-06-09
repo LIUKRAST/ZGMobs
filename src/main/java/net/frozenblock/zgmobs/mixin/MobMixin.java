@@ -58,7 +58,9 @@ public class MobMixin {
     @Inject(method = "aiStep", at = @At("HEAD"))
     private void aiStep(CallbackInfo ci) {
         var that = ((Mob)(Object)this);
-        if (that.level().isClientSide && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
+        if(!(that instanceof Enemy)) return;
+        if(GermoniumUtils.getVariant(that) == Germonium.NORMAL) return;
+        if(that.level().isClientSide()) {
             for(int i = 0; i < 3; ++i) {
                 that.level().addAlwaysVisibleParticle(
                         ParticleTypes.ENTITY_EFFECT,
@@ -69,25 +71,25 @@ public class MobMixin {
 
             }
         }
-        if (!(that instanceof Shulker) && that.level().getDifficulty() != Difficulty.PEACEFUL && that instanceof Enemy && GermoniumUtils.getVariant(that) != Germonium.NORMAL) {
-            --this.zGMobs$attackTime;
-            LivingEntity livingentity = that.getTarget();
-            if (livingentity != null && Config.ENABLE_SHULKER_BULLETS.get()) {
-                that.getLookControl().setLookAt(livingentity, 180.0F, 180.0F);
-                double d0 = that.distanceToSqr(livingentity);
-                if (d0 < 400.0D) {
-                    if (this.zGMobs$attackTime <= 0) {
-                        int min = Config.SHULKER_MIN_COOLDOWN.get();
-                        this.zGMobs$attackTime = min + that.getRandom().nextInt(Config.SHULKER_MAX_COOLDOWN.get() - min);
+        if(that instanceof Shulker) return;
+        if(that.level().getDifficulty() == Difficulty.PEACEFUL) return;
+        --this.zGMobs$attackTime;
+        LivingEntity livingentity = that.getTarget();
+        if (livingentity != null && Config.ENABLE_SHULKER_BULLETS.get()) {
+            that.getLookControl().setLookAt(livingentity, 180.0F, 180.0F);
+            double d0 = that.distanceToSqr(livingentity);
+            if (d0 < 400.0D) {
+                if (this.zGMobs$attackTime <= 0) {
+                    int min = Config.SHULKER_MIN_COOLDOWN.get();
+                    this.zGMobs$attackTime = min + that.getRandom().nextInt(Config.SHULKER_MAX_COOLDOWN.get() - min);
+                    that.level().addFreshEntity(new ShulkerExplosiveBullet(that.level(), that, livingentity, Direction.Axis.Y));
+                    if(GermoniumUtils.getVariant(that) == Germonium.CELESTIUM) {
                         that.level().addFreshEntity(new ShulkerExplosiveBullet(that.level(), that, livingentity, Direction.Axis.Y));
-                        if(GermoniumUtils.getVariant(that) == Germonium.CELESTIUM) {
-                            that.level().addFreshEntity(new ShulkerExplosiveBullet(that.level(), that, livingentity, Direction.Axis.Y));
-                        }
-                        that.playSound(SoundEvents.SHULKER_SHOOT, 2.0F, (that.getRandom().nextFloat() - that.getRandom().nextFloat()) * 0.2F + 1.0F);
                     }
-                } else {
-                    that.setTarget(null);
+                    that.playSound(SoundEvents.SHULKER_SHOOT, 2.0F, (that.getRandom().nextFloat() - that.getRandom().nextFloat()) * 0.2F + 1.0F);
                 }
+            } else {
+                that.setTarget(null);
             }
         }
     }
@@ -95,12 +97,11 @@ public class MobMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
+        if(!(that instanceof Enemy)) return;
         var variant = GermoniumUtils.getVariant(that);
-        if(that instanceof Enemy) {
-            if(variant != zgmobs$variant) {
-                zgmobs$variant = variant;
-                variant.setAttributes(that.getAttributes());
-            }
+        if(variant != zgmobs$variant) {
+            zgmobs$variant = variant;
+            variant.setAttributes(that.getAttributes());
         }
     }
 }
