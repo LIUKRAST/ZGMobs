@@ -9,6 +9,7 @@ import org.lwjgl.system.NonnullDefault;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.IntFunction;
 
 @NonnullDefault
@@ -69,7 +70,7 @@ public enum Germonium implements StringRepresentable {
     }
 
     private static AttributeModifier create(double amount, AttributeModifier.Operation operation) {
-        return new AttributeModifier("zgmobs.variant.germonium", amount, operation);
+        return new AttributeModifier(UUID.fromString("d543eb83-b8b1-4626-b320-03b68395c448"), "zgmobs.variant.germonium", amount, operation);
     }
 
     public static void finalizeSpawn(Mob mob) {

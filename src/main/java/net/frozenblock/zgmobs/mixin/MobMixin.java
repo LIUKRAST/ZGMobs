@@ -98,6 +98,7 @@ public class MobMixin {
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
         if(!(that instanceof Enemy)) return;
+        if(that.level().isClientSide()) return;
         var variant = GermoniumUtils.getVariant(that);
         if(variant != zgmobs$variant) {
             zgmobs$variant = variant;
