@@ -91,13 +91,12 @@ public class MobMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
         final var that = (Mob)(Object)this;
-        var variant = GermoniumUtils.getVariant(that);
         if(that instanceof Enemy) {
+            var variant = GermoniumUtils.getVariant(that);
             if(variant != zgmobs$variant) {
                 zgmobs$variant = variant;
                 variant.setAttributes(that.getAttributes());
             }
         }
-
     }
 }
