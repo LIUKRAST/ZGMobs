@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class FinalizeSpawnMixin {
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void finalizeSpawn(ServerLevelAccessor p_21434_, DifficultyInstance p_21435_, MobSpawnType p_21436_, SpawnGroupData p_21437_, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
-        if(tag.contains("Germonium"));
-        Germonium.finalizeSpawn(Mob.class.cast(this), tag.contains("Germonium") ? Germonium.byName(tag.getString("Germonium")) : null);
+        Germonium.finalizeSpawn(Mob.class.cast(this), tag != null && tag.contains("Germonium") ? Germonium.byName(tag.getString("Germonium")) : null);
     }
 }
