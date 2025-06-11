@@ -1,10 +1,13 @@
 package net.frozenblock.zgmobs;
 
+import net.frozenblock.zgmobs.mixin.CreeperMixin;
 import net.minecraft.util.ByIdMap;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.NonnullDefault;
 
 import java.util.HashMap;
@@ -73,10 +76,12 @@ public enum Germonium implements StringRepresentable {
         return new AttributeModifier(UUID.fromString("d543eb83-b8b1-4626-b320-03b68395c448"), "zgmobs.variant.germonium", amount, operation);
     }
 
-    public static void finalizeSpawn(Mob mob) {
+    public static void finalizeSpawn(Mob mob, @Nullable Germonium germonium) {
         if(mob instanceof Enemy) {
-            if(!Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
-            boolean infernium = Math.random()*100 > Config.CELESTIUM_VARIANT.get();
+            if(germonium == null && !Config.DISABLE_GERMONIUM.get() && Math.random()*100 > Config.GERMONIUM_BASE_CHANCE.get()) return;
+            if(germonium == NORMAL) return;
+            if(mob instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
+            boolean infernium = germonium == null ? Math.random()*100 > Config.CELESTIUM_VARIANT.get() : germonium == INFERNIUM;
             if(infernium) GermoniumUtils.setupInfernium(mob);
             else GermoniumUtils.setupCelestium(mob);
             (infernium ? Germonium.INFERNIUM : Germonium.CELESTIUM).setAttributes(mob.getAttributes());

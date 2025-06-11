@@ -25,12 +25,11 @@ public class GermoniumUtils {
     }
 
     public static void setupInfernium(Mob that) {
-        if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
+
         setVariant(that, Germonium.INFERNIUM);
     }
 
     public static void setupCelestium(Mob that) {
-        if(that instanceof Creeper creeper) creeper.getEntityData().set(CreeperMixin.accessor$DATA_IS_POWERED(), true);
         setVariant(that, Germonium.CELESTIUM);
     }
 }

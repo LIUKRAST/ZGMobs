@@ -4,11 +4,11 @@ import net.frozenblock.zgmobs.Config;
 import net.frozenblock.zgmobs.Germonium;
 import net.frozenblock.zgmobs.GermoniumUtils;
 import net.frozenblock.zgmobs.ZGMobs;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
@@ -48,10 +48,17 @@ public class LivingEntityMixin {
             var entities = ZGMobs.getEntitiesFromTag(ZGMobs.id("celestium_spawns"));
             for (int i = 0; i < Math.random() * Config.CELESTIUM_DEATH_ROLL.get(); i++) {
                 var entityType = entities.get((int) (Math.random() * entities.size()));
-                ZGMobs.IGNORE_NEXT_SETUP = true;
-                var entity = entityType.spawn((ServerLevel) that.level(), that.getOnPos().above(), MobSpawnType.REINFORCEMENT);
-                assert entity != null;
-                if (entity instanceof Mob mob) GermoniumUtils.setupInfernium(mob);
+                var tag = new CompoundTag();
+                tag.putString("Germonium", "infernium");
+                entityType.spawn(
+                        (ServerLevel) that.level(),
+                        tag,
+                        null,
+                        that.getOnPos().above(),
+                        MobSpawnType.REINFORCEMENT,
+                        false,
+                        false
+                );
             }
         }
     }

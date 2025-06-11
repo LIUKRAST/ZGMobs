@@ -15,6 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SpawnerMixin {
     @Inject(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/event/ForgeEventFactory;onFinalizeSpawnSpawner(Lnet/minecraft/world/entity/Mob;Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/SpawnGroupData;Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/world/level/BaseSpawner;)Lnet/minecraftforge/event/entity/living/MobSpawnEvent$FinalizeSpawn;"))
     private void serverTick(ServerLevel p_151312_, BlockPos p_151313_, CallbackInfo ci, @Local Mob mob) {
-        Germonium.finalizeSpawn(mob);
+        Germonium.finalizeSpawn(mob, null);
     }
 }
