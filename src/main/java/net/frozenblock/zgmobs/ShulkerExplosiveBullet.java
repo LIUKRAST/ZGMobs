@@ -8,6 +8,8 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.projectile.ShulkerBullet;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -34,12 +36,12 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
                 if(Math.random() > 0.5) {
                     List<MobEffectInstance> instances = List.of(
                             new MobEffectInstance(MobEffects.WITHER, 100, 2),
-                            new MobEffectInstance(MobEffects.DARKNESS, 100),
-                            new MobEffectInstance(MobEffects.HARM, 100, 3),
-                            new MobEffectInstance(MobEffects.CONFUSION, 100),
-                            new MobEffectInstance(MobEffects.BAD_OMEN, 100, 10),
+                            new MobEffectInstance(MobEffects.DARKNESS, 100, 0),
+                            new MobEffectInstance(MobEffects.HARM, 100, 2),
+                            new MobEffectInstance(MobEffects.CONFUSION, 100, 0),
+                            new MobEffectInstance(MobEffects.BAD_OMEN, 100, 9),
                             new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2),
-                            new MobEffectInstance(MobEffects.BLINDNESS, 100),
+                            new MobEffectInstance(MobEffects.BLINDNESS, 100, 0),
                             new MobEffectInstance(MobEffects.WEAKNESS, 100, 2),
                             new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2)
                     );
@@ -53,7 +55,7 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
 
     @Override
     protected boolean canHitEntity(@NotNull Entity entity) {
-        if(entity instanceof Mob) return GermoniumUtils.getVariant(entity) == Germonium.NORMAL;
+        if(entity instanceof Enemy) return GermoniumUtils.getVariant(entity) == Germonium.NORMAL;
         return super.canHitEntity(entity);
     }
 }
