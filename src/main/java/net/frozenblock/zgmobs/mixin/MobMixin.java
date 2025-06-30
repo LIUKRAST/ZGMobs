@@ -67,7 +67,7 @@ public class MobMixin {
                         that.getRandomX(that.getBoundingBox().getXsize()/2),
                         that.getRandomY(),
                         that.getRandomZ(that.getBoundingBox().getZsize()/2),
-                        Math.random(), Math.random(), Math.random());
+                        (Math.random()+1)/2, (Math.random()+1)/2, (Math.random()+1)/2);
 
             }
         }
