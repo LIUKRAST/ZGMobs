@@ -37,7 +37,7 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
                     List<MobEffectInstance> instances = List.of(
                             new MobEffectInstance(MobEffects.WITHER, 100, 2),
                             new MobEffectInstance(MobEffects.DARKNESS, 100, 0),
-                            new MobEffectInstance(MobEffects.HARM, 100, 2),
+                            new MobEffectInstance(MobEffects.HARM, 10, 2),
                             new MobEffectInstance(MobEffects.CONFUSION, 100, 0),
                             new MobEffectInstance(MobEffects.BAD_OMEN, 100, 9),
                             new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2),
@@ -51,6 +51,11 @@ public class ShulkerExplosiveBullet extends ShulkerBullet {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean ignoreExplosion() {
+        return true;
     }
 
     @Override
