@@ -39,8 +39,8 @@ public class ZGMobs {
 
     public static List<EntityType<?>> getEntitiesFromTag(ResourceLocation tagId) {
         TagKey<EntityType<?>> entityTag = TagKey.create(Registries.ENTITY_TYPE, tagId);
-        return ForgeRegistries.ENTITY_TYPES.tags()
-                .getTag(entityTag)
+        var nullable = ForgeRegistries.ENTITY_TYPES.tags();
+        return nullable == null ? List.of() : nullable.getTag(entityTag)
                 .stream()
                 .toList();
     }
