@@ -20,6 +20,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -30,15 +32,13 @@ public class LivingEntityMixin {
 
     @Shadow @Nullable protected Player lastHurtByPlayer;
 
-    @Inject(method = "getExperienceReward", at = @At("RETURN"), cancellable = true)
-    private void getExperienceReward(CallbackInfoReturnable<Integer> cir) {
-        if(this instanceof Enemy) {
-            cir.setReturnValue(cir.getReturnValueI() * switch(GermoniumUtils.getVariant(this)) {
-                case NORMAL -> 1;
-                case INFERNIUM -> 15;
-                case CELESTIUM -> 30;
-            });
-        }
+    @ModifyVariable(method = "dropExperience", at = @At("STORE"))
+    private int dropExperience(int value) {
+        return value * (this instanceof Enemy ? switch (GermoniumUtils.getVariant(this)) {
+            case NORMAL -> 1;
+            case INFERNIUM -> 15;
+            case CELESTIUM -> 30;
+        } : 1);
     }
 
     @Inject(method = "die", at = @At("TAIL"))
