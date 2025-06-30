@@ -1,9 +1,7 @@
 package net.frozenblock.zgmobs;
 
-import net.frozenblock.zgmobs.mixin.CreeperMixin;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.Creeper;
 
 public class GermoniumUtils {
     private GermoniumUtils() {}

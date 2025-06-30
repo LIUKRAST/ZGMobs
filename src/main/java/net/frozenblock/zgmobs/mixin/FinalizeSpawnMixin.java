@@ -1,7 +1,6 @@
 package net.frozenblock.zgmobs.mixin;
 
 import net.frozenblock.zgmobs.Germonium;
-import net.frozenblock.zgmobs.GermoniumUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Mob;
