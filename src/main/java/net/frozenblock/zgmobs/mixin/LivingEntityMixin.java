@@ -41,21 +41,6 @@ public abstract class LivingEntityMixin {
         }
     }
 
-    @Inject(method = "die", at = @At("HEAD"))
-    private void die(DamageSource damageSource, CallbackInfo ci) {
-        var that = (LivingEntity) (Object) this;
-        if (this instanceof Enemy && GermoniumUtils.getVariant(this) == Germonium.CELESTIUM && !that.level().isClientSide()) {
-            var entities = ZGMobs.getEntitiesFromTag(ZGMobs.id("celestium_spawns"));
-            for (int i = 0; i < Math.random() * Config.CELESTIUM_DEATH_ROLL.get(); i++) {
-                var entityType = entities.get((int) (Math.random() * entities.size()));
-                ZGMobs.IGNORE_NEXT_SETUP = true;
-                var entity = entityType.spawn((ServerLevel) that.level(), that.getOnPos().above(), MobSpawnType.REINFORCEMENT);
-                assert entity != null;
-                if (entity instanceof Mob mob) GermoniumUtils.setupInfernium(mob);
-            }
-        }
-    }
-
     @Inject(method = "dropFromLootTable", at = @At("TAIL"))
     private void dropFromLootTable(DamageSource damageSource, boolean bl, CallbackInfo ci) {
         if(!(this instanceof Enemy)) return;
