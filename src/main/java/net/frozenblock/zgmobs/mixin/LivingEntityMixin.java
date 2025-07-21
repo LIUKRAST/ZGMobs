@@ -1,15 +1,11 @@
 package net.frozenblock.zgmobs.mixin;
 
-import net.frozenblock.zgmobs.Config;
-import net.frozenblock.zgmobs.Germonium;
 import net.frozenblock.zgmobs.GermoniumUtils;
 import net.frozenblock.zgmobs.ZGMobs;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -37,28 +33,6 @@ public class LivingEntityMixin {
             case INFERNIUM -> 15;
             case CELESTIUM -> 30;
         } : 1);
-    }
-
-    @Inject(method = "die", at = @At("TAIL"))
-    private void die(DamageSource damageSource, CallbackInfo ci) {
-        var that = (LivingEntity) (Object) this;
-        if (this instanceof Enemy && GermoniumUtils.getVariant(this) == Germonium.CELESTIUM && !that.level().isClientSide()) {
-            var entities = ZGMobs.getEntitiesFromTag(ZGMobs.id("celestium_spawns"));
-            for (int i = 0; i < Math.random() * Config.CELESTIUM_DEATH_ROLL.get(); i++) {
-                var entityType = entities.get((int) (Math.random() * entities.size()));
-                var tag = new CompoundTag();
-                tag.putString("Germonium", "infernium");
-                entityType.spawn(
-                        (ServerLevel) that.level(),
-                        tag,
-                        null,
-                        that.getOnPos().above(),
-                        MobSpawnType.REINFORCEMENT,
-                        false,
-                        false
-                );
-            }
-        }
     }
 
     @Inject(method = "dropFromLootTable", at = @At("TAIL"))
