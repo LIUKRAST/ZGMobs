@@ -1,7 +1,5 @@
 package net.frozenblock.zgmobs.mixin;
 
-import net.frozenblock.zgmobs.Config;
-import net.frozenblock.zgmobs.Germonium;
 import net.frozenblock.zgmobs.GermoniumUtils;
 import net.frozenblock.zgmobs.ZGMobs;
 import net.minecraft.core.registries.Registries;
@@ -10,8 +8,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.loot.LootParams;
